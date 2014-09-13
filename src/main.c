@@ -11,11 +11,11 @@ static GFont s_weather_font;
 static BitmapLayer *s_icon_layer;
 static GBitmap *s_icon_bitmap;
 
-const int nounCnt = 47;
+const int nounCnt = 46;
 const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon","hacking",
                      "hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags","shoes","smiles",
                      "toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people","hobbits",
-                     "goblins","elves","rings","music","friendships","magic","ponies","fire extinguishers","search engines","achievements","rainbows",};
+                     "goblins","elves","rings","melodies","friendships","ponies","fire extinguishers","search engines","achievements","rainbows",};
 const int negadjCnt = 31;
 const char *negadj[]={"bad","desperate","terrible","indecisive","vague","cloudy","unfortunate","cantankerous","finicky","foolhardy","fussy","mean",
                       "unpredictable","silly","sneaky","patronizing","nasty","inflexible","harsh","lazy","cynical","messy","stagnant","stale",

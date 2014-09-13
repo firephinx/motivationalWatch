@@ -6,8 +6,8 @@
     "capabilities": [
         "location"
     ],
-    "companyName": "HackCMU 2014",
-    "longName": "Motivational Watch",
+    "companyName": "HackCMU 2014 LSPZ",
+    "longName": "Phreelance Philosopher Watchface with Weather",
     "projectType": "native",
     "resources": {
         "media": [
@@ -39,7 +39,7 @@
             }
         ]
     },
-    "shortName": "Motivational Watch",
+    "shortName": "Phreelance Philosopher",
     "uuid": "11aaa57b-e19f-4e6d-9578-9414677082af",
     "versionCode": 1,
     "versionLabel": "1.0",
