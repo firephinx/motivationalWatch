@@ -85,7 +85,6 @@ static void update_speech() {
     strcat(output," ");
     strcat(output,comparatives[rand()%comparativesCnt]);
   }
-  
   text_layer_set_text(s_text_layer, output);
   
   free(output);
@@ -136,6 +135,7 @@ static void main_window_load(Window *window) {
   // Apply to TextLayer
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
+  text_layer_set_text_alignment(s_text_layer, GAlignCenter);
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   
   update_speech();
@@ -161,7 +161,10 @@ static void window_load()
 }
 
 static void init() {
-// Create main Window element and assign to pointer
+  // Set RNGesus
+  srand(time(NULL));
+    
+  // Create main Window element and assign to pointer
   s_main_window = window_create();
 
   // Set handlers to manage the elements inside the Window
@@ -175,8 +178,7 @@ static void init() {
   // Register with TickTimerService
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   
-  // Set RNGesus
-  srand(time(NULL));
+  
 }
 
 static void deinit() {
