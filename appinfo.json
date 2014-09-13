@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "kevinleezhang@gmail.com",
+    "longName": "Motivational Watch",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "shortName": "Motivational Watch",
+    "uuid": "11aaa57b-e19f-4e6d-9578-9414677082af",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
