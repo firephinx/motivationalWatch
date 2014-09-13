@@ -77,13 +77,13 @@ static void main_window_load(Window *window) {
   char *output=malloc(500);
   // Only doing 1 thing atm.
   strcpy(output,"Do not ");
-  strcat(output,negvb[0]);
+  strcat(output,negvb[rand()%negvbCnt]);
   strcat(output, " - ");
-  strcat(output,comparatives[0]);
+  strcat(output,comparatives[rand()%comparativesCnt]);
   strcat(output," ");
-  strcat(output,noun[0]);
+  strcat(output,noun[rand()%nounCnt]);
   strcat(output," shall ");
-  strcat(output,verb[0]);
+  strcat(output,verb[rand()%verbCnt]);
   strcat(output,"!");
     
   // Improve the layout to be more like a watchface
@@ -129,6 +129,9 @@ static void init() {
     
   // Register with TickTimerService
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  
+  // Set RNGesus
+  srand(time(NULL));
 }
 
 static void deinit() {
