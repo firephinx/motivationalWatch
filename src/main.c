@@ -181,8 +181,8 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
   text_layer_set_text_alignment(s_text_layer, GAlignCenter);
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  
-  update_speech();
+
+  //update_speech();
     
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 10, 144, 25));
@@ -199,6 +199,7 @@ static void main_window_load(Window *window) {
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_text_layer));
+  
 }
 
 static void main_window_unload(Window *window) {
