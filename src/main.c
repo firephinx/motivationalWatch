@@ -40,6 +40,25 @@ const char *verb[]={"think","come","look","appear","run","lift","decide","mix","
 const int timesCnt = 11;
 const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
 
+static void update_speech() {
+  // Create string that will be used to display whatever.
+  char *output=malloc(500);
+  // Only doing 1 thing atm.
+  strcpy(output,"Do not ");
+  strcat(output,negvb[rand()%negvbCnt]);
+  strcat(output, " - ");
+  strcat(output,comparatives[rand()%comparativesCnt]);
+  strcat(output," ");
+  strcat(output,noun[rand()%nounCnt]);
+  strcat(output," shall ");
+  strcat(output,verb[rand()%verbCnt]);
+  strcat(output,"!");
+  
+  text_layer_set_text(s_text_layer, output);
+  
+  free(output);
+}
+
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
@@ -59,25 +78,6 @@ static void update_time() {
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
-}
-
-static void update_speech() {
-  // Create string that will be used to display whatever.
-  char *output=malloc(500);
-  // Only doing 1 thing atm.
-  strcpy(output,"Do not ");
-  strcat(output,negvb[rand()%negvbCnt]);
-  strcat(output, " - ");
-  strcat(output,comparatives[rand()%comparativesCnt]);
-  strcat(output," ");
-  strcat(output,noun[rand()%nounCnt]);
-  strcat(output," shall ");
-  strcat(output,verb[rand()%verbCnt]);
-  strcat(output,"!");
-  
-  text_layer_set_text(s_text_layer, output);
-  
-  free(output);
 }
 
 static void main_window_load(Window *window) {
