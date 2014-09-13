@@ -9,7 +9,7 @@ static GFont s_time_font;
 static TextLayer *s_weather_layer;
 static GFont s_weather_font;
 static BitmapLayer *s_icon_layer;
-static GBitmap *s_icon_bitmap;
+//static GBitmap *s_icon_bitmap;
 
 const int nounCnt = 45;
 const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon",
@@ -184,7 +184,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_text_layer, GColorClear);
   text_layer_set_text_color(s_text_layer, GColorBlack);
   s_icon_layer = bitmap_layer_create(GRect(0, 40, 144, 40));
-  s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud);
+  const GBitmap *s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud);
   bitmap_layer_set_bitmap(s_icon_layer, s_icon_bitmap);
   
   // Create GFont
