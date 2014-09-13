@@ -15,7 +15,7 @@ const int nounCnt = 47;
 const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon","hacking",
                      "hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags","shoes","smiles",
                      "toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people","hobbits",
-                     "goblins","elves","rings","music","friendship","magic","ponies","fire extinguishers","search engines","achievements","rainbows",};
+                     "goblins","elves","rings","music","friendships","magic","ponies","fire extinguishers","search engines","achievements","rainbows",};
 const int negadjCnt = 31;
 const char *negadj[]={"bad","desperate","terrible","indecisive","vague","cloudy","unfortunate","cantankerous","finicky","foolhardy","fussy","mean",
                       "unpredictable","silly","sneaky","patronizing","nasty","inflexible","harsh","lazy","cynical","messy","stagnant","stale",
@@ -123,7 +123,7 @@ static void update_speech() {
     strcat(output,verbt[rand()%verbtCnt]);
     strcat(output," ");
     strcat(output,noun[rand()%nounCnt]);
-    strcat(output,"; you should");
+    strcat(output,"; you should ");
     strcat(output,verb[rand()%verbCnt]);
     strcat(output,".");
   }
@@ -193,16 +193,6 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       break;
     case KEY_CONDITIONS:
       snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", t->value->cstring);
-      
-      /*}
-      else if(strcmp(conditions_buffer, "Sun"))
-      {
-          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_sun);
-      }  
-      else if(strcmp(conditions_buffer, "rain"))
-      {
-          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud_rain);
-      }   */
       break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
@@ -215,7 +205,23 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Assemble full string and display
     snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s, %s", temperature_buffer, conditions_buffer);
     text_layer_set_text(s_weather_layer, weather_layer_buffer);
-    
+    if(strcmp(conditions_buffer,"Sunny") == 0)
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_sunny);
+      }
+      else if(strcmp(conditions_buffer, "Clouds") == 0)
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloudy);
+      }  
+      else if(strcmp(conditions_buffer, "Rain") == 0)
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_rainy);
+      }
+      else if(strcmp(conditions_buffer, "Cover") == 0)
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cover);
+      }  
+    bitmap_layer_set_bitmap(s_icon_layer, s_icon_bitmap);
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
@@ -238,9 +244,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_background_color(s_text_layer, GColorClear);
   text_layer_set_text_color(s_text_layer, GColorBlack);
-  s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud);
-  s_icon_layer = bitmap_layer_create(GRect(0, 50, 144, 100));  
-  bitmap_layer_set_bitmap(s_icon_layer, s_icon_bitmap);
+  s_icon_layer = bitmap_layer_create(GRect(0, 40, 144, 80));  
   
   // Create GFont
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
@@ -269,6 +273,8 @@ static void main_window_load(Window *window) {
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_text_layer));
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_icon_layer));  
+    
+  layer_set_hidden((Layer*)s_icon_layer, true);  
 }
 
 static void main_window_unload(Window *window) {
