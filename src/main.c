@@ -5,6 +5,41 @@ static TextLayer *s_time_layer;
 static TextLayer *s_text_layer;
 static GFont s_time_font;
 
+const int nounCnt = 45;
+const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon",
+                     "hacking","hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags",
+                     "shoes","toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people",
+                     "hobbits","goblins","elves","rings","music","friendship","magic","ponies","fire extinguishers","search engines","achievements"};
+const int negadjCnt = 30;
+const char *negadj[]={"bad","desperate","terrible","indecisive","vague","cloudy","unfortunate","cantankerous","finicky","foolhardy","fussy","mean",
+                      "unpredictable","silly","sneaky","patronizing","nasty","inflexible","harsh","lazy","cynical","messy","stagnant","stale",
+                      "stressful","scary","repulsive","rainy","arrogant","needy"};
+const int negvbCnt = 32;
+const char *negvb[]={"despair","worry","dismay","disapprove","downgrade","disrespect","drop out","fail","expire","fear","gripe","grumble",
+                     "hallucinate","hate","be lame","mess up","misbehave","objectify","be obliterated","offend","oppress","ostracize","perish",
+                     "panic","procrastinate","recoil","retreat","scorn","shriek","slaughter","squabble","be nauseated"};
+const int comparativeCnt = 34;
+const char *comparative[]={"happier","calmer","better","nicer","wittier","prouder","more delightful","bigger","more alive","more important",
+                           "greener","redder","bluer","more purple","more yellow","more glamorous","fancier","chubbier","sweeter","younger","older",
+                           "fluffier","warmer","yummier","stronger","jollier","more charming","more certain","more decisive","cooler","cuter",
+                           "more grandiose","groovier","more magical"};
+const int verbxCnt = 13;
+const char *verbx[]={"look","seem","appear","act","become","end up","wax","stay","sound","remain","prove","get","taste"};
+const int adverbCnt = 32;
+const char *adverb[]={"positively","nicely","gracefully","loudly","intuitively","greatly","wonderfully","naturally","optimistically","openly",
+                      "truly","truthfully","sweetly","unusually","quietly","powerfully","lovingly","wonderfully","fantastically","justly","easily",
+                      "patiently","youthfully","stealthily","respectfully","reproachfully","tenderly","merrily","softly","magically","kindly","pretty"};
+const int adjCnt = 31;
+const char *adj[]={"good","lovely","wonderful","nice","agreeable","calm","beautiful","fluffy","happy","witty","small","red","blue","yellow","green",
+                   "purple","orange","glamorous","glorious","fabulous","meaningful","beautiful","alive","active","interesting","attractive","careful",
+                   "special","miniature","tall","short"};
+const int verbCnt = 38;
+const char *verb[]={"think","come","look","appear","run","lift","decide","mix","knit","gather","fix","accomplish","bubble","hammer","greet","enlist",
+                    "hypothesize","fly","hypnotize","mesmerize","memorize","happen","analyze","amuse","dig","assemble","exist","laugh","remain",
+                    "twist","eat","rise","smile","sneeze","spread","surprise","be unlocked","write"};
+const int timesCnt = 11;
+const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
+
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
@@ -38,12 +73,25 @@ static void main_window_load(Window *window) {
   // Create GFont
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
   
+  // Create string that will be used to display whatever.
+  char output[150]="";
+  // Only doing 1 thing atm.
+  strncat(output,"Do not ",100);
+  strncat(output,negvb[0],100);
+  strncat(output," - ",100);
+  strncat(output,comparative[0],100);
+  strncat(output," ",100);
+  strncat(output,noun[0],100);
+  strncat(output," shall ",100);
+  strncat(output,verb[0],100);
+  strncat(output,"!",100);
+    
   // Improve the layout to be more like a watchface
   // Apply to TextLayer
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  text_layer_set_text(s_text_layer, "Do not dismay - groovier ceilings shall accomplish.");
+  text_layer_set_text(s_text_layer, output);
   
 
   // Add it as a child layer to the Window's root layer
