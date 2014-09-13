@@ -11,15 +11,15 @@ static GFont s_weather_font;
 static BitmapLayer *s_icon_layer;
 static GBitmap *s_icon_bitmap;
 
-const int nounCnt = 45;
-const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon",
-                     "hacking","hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags",
-                     "shoes","toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people",
-                     "hobbits","goblins","elves","rings","music","friendship","magic","ponies","fire extinguishers","search engines","achievements"};
-const int negadjCnt = 30;
+const int nounCnt = 47;
+const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon","hacking",
+                     "hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags","shoes","smiles",
+                     "toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people","hobbits",
+                     "goblins","elves","rings","music","friendship","magic","ponies","fire extinguishers","search engines","achievements","rainbows",};
+const int negadjCnt = 31;
 const char *negadj[]={"bad","desperate","terrible","indecisive","vague","cloudy","unfortunate","cantankerous","finicky","foolhardy","fussy","mean",
                       "unpredictable","silly","sneaky","patronizing","nasty","inflexible","harsh","lazy","cynical","messy","stagnant","stale",
-                      "stressful","scary","repulsive","rainy","arrogant","needy"};
+                      "stressful","scary","repulsive","rainy","arrogant","needy","insignificant"};
 const int negvbCnt = 32;
 const char *negvb[]={"despair","worry","dismay","disapprove","downgrade","disrespect","drop out","fail","expire","fear","gripe","grumble",
                      "hallucinate","hate","be lame","mess up","misbehave","objectify","be obliterated","offend","oppress","ostracize","perish",
@@ -31,25 +31,37 @@ const char *comparatives[]={"happier","calmer","better","nicer","wittier","proud
                            "more grandiose","groovier","more magical"};
 const int verbxCnt = 13;
 const char *verbx[]={"look","seem","appear","act","become","end up","wax","stay","sound","remain","prove","get","taste"};
-const int adverbCnt = 32;
+const int verbx2Cnt = 10;
+const char *verbx2[]={"look","seem","appear","act","become","end up","wax","stay","sound","remain"};
+const int verbtCnt = 36;
+const char *verbt[]={"think of","look at","lift","mix","knit","gather","fix","melt","hammer on","greet","hypothesize about","hypnotize",
+                     "mesmerize","analyze","amuse","dig under","assemble","create","laugh at","twist","eat","raise","smile at","spread",
+					 "surprise","write","read about","disrespect","worry about","disapprove of","recoil at","slaughter","mess up",
+					 "annihilate","offend","fear"};
+const int adverbCnt = 31;
 const char *adverb[]={"positively","nicely","gracefully","loudly","intuitively","greatly","wonderfully","naturally","optimistically","openly",
                       "truly","truthfully","sweetly","unusually","quietly","powerfully","lovingly","wonderfully","fantastically","justly","easily",
-                      "patiently","youthfully","stealthily","respectfully","reproachfully","tenderly","merrily","softly","magically","kindly","pretty"};
-const int adjCnt = 31;
+                      "patiently","youthfully","stealthily","respectfully","reproachfully","tenderly","merrily","softly","magically","kindly"};
+const int uncompadvCnt = 18;
+const char *uncompadv[]={"pretty","absolutely","adequately","chiefly","completely","entirely","fundamentally","wonderfully","mainly",
+                     	 "irrevocably","sufficiently", "wholly", "universally", "unanimously", "ubiquitously", "primarily", "perfectly", "openly"};
+const int adjCnt = 30;
 const char *adj[]={"good","lovely","wonderful","nice","agreeable","calm","beautiful","fluffy","happy","witty","small","red","blue","yellow","green",
                    "purple","orange","glamorous","glorious","fabulous","meaningful","beautiful","alive","active","interesting","attractive","careful",
-                   "special","miniature","tall","short"};
-const int verbCnt = 38;
+                   "special","tall","short"};
+const int verbCnt = 39;
 const char *verb[]={"think","come","look","appear","run","lift","decide","mix","knit","gather","fix","accomplish","bubble","hammer","greet","enlist",
                     "hypothesize","fly","hypnotize","mesmerize","memorize","happen","analyze","amuse","dig","assemble","exist","laugh","remain",
-                    "twist","eat","rise","smile","sneeze","spread","surprise","be unlocked","write"};
+                    "twist","eat","rise","smile","sneeze","spread","surprise","be unlocked","write","be surprised"};
 const int timesCnt = 11;
 const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
+
+int prevMin = -1;
 
 static void update_speech() {
   // Create string that will be used to display whatever.
   char *output=malloc(500);
-  int speechtype = rand()%3;
+  int speechtype = rand()%7;
   if (speechtype == 0) {
     strcpy(output,"Do not ");
     strcat(output,negvb[rand()%negvbCnt]);
@@ -59,7 +71,7 @@ static void update_speech() {
     strcat(output,noun[rand()%nounCnt]);
     strcat(output," shall ");
     strcat(output,verb[rand()%verbCnt]);
-    strcat(output,"!");
+    strcat(output,".");
   }
   else if (speechtype == 1) {
     strcpy(output,"");
@@ -72,7 +84,7 @@ static void update_speech() {
     strcat(output," ");
     strcat(output,verb[rand()%verbCnt]);
     strcat(output," ");
-    strcat(output,adverb[rand()%adverbCnt]);
+    strcat(output,uncompadv[rand()%uncompadvCnt]);
     strcat(output," ");
     strcat(output,adj[rand()%adjCnt]);
     strcat(output,".");
@@ -87,17 +99,60 @@ static void update_speech() {
     strcat(output,negadj[rand()%negadjCnt]);
     strcat(output," ");
     strcat(output,times[rand()%timesCnt]);
-    strcat(output," but they ");
+    strcat(output,", but they ");
     strcat(output,verbx[rand()%verbxCnt]);
     strcat(output," ");
     strcat(output,comparatives[rand()%comparativesCnt]);
+    strcat(output,".");
+  }
+  else if (speechtype == 3) {
+    strcpy(output,"");
+    strcat(output,verbx2[rand()%verbx2Cnt]);
+    output[0] = output[0]&0xdf;
+    strcat(output," ");
+    strcat(output,adj[rand()%adjCnt]);
+    strcat(output,", for the ");
+    strcat(output,negadj[rand()%negadjCnt]);
+    strcat(output," shall ");
+    strcat(output,negvb[rand()%negvbCnt]);
+    strcat(output,".");
+  }
+  else if (speechtype == 4) {
+    strcpy(output,"");
+    strcat(output,"Some ");
+    strcat(output,verbt[rand()%verbtCnt]);
+    strcat(output," ");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output,"; you should");
+    strcat(output,verb[rand()%verbCnt]);
+    strcat(output,".");
+  }
+  else if (speechtype == 5) {
+    strcpy(output,"");
+    strcat(output,verb[rand()%verbCnt]);
+    output[0] = output[0]&0xdf;
+    strcat(output," ");
+    strcat(output,times[rand()%timesCnt]);
+    strcat(output,", it is ");
+    strcat(output,adj[rand()%adjCnt]);
+    strcat(output,".");
+  }
+  else if (speechtype == 6) {
+    strcpy(output,"");
+    strcat(output,"When ");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output," ");
+    strcat(output,verb[rand()%verbCnt]);
+    strcat(output,", ");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output," ");
+    strcat(output,verb[rand()%verbCnt]);
     strcat(output,".");
   }
   text_layer_set_text(s_text_layer, output);
   
   free(output);
 }
-
 static void update_time() {
   // Get a tm structure
   time_t temp = time(NULL); 
