@@ -8,6 +8,8 @@ static TextLayer *s_text_layer;
 static GFont s_time_font;
 static TextLayer *s_weather_layer;
 static GFont s_weather_font;
+static BitmapLayer *s_icon_layer;
+static GBitmap *s_icon_bitmap;
 
 const int nounCnt = 45;
 const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon",
@@ -136,6 +138,16 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       break;
     case KEY_CONDITIONS:
       snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", t->value->cstring);
+      
+      /*}
+      else if(strcmp(conditions_buffer, "Sun"))
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_sun);
+      }  
+      else if(strcmp(conditions_buffer, "rain"))
+      {
+          s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud_rain);
+      }   */
       break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
@@ -148,6 +160,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Assemble full string and display
     snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s, %s", temperature_buffer, conditions_buffer);
     text_layer_set_text(s_weather_layer, weather_layer_buffer);
+    
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
@@ -170,7 +183,10 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_background_color(s_text_layer, GColorClear);
   text_layer_set_text_color(s_text_layer, GColorBlack);
-    
+  s_icon_layer = bitmap_layer_create(GRect(0, 40, 144, 40));
+  s_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_cloud);
+  bitmap_layer_set_bitmap(s_icon_layer, s_icon_bitmap);
+  
   // Create GFont
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
   
@@ -181,8 +197,6 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
   text_layer_set_text_alignment(s_text_layer, GAlignCenter);
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-
-  //update_speech();
     
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 10, 144, 25));
@@ -199,7 +213,6 @@ static void main_window_load(Window *window) {
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_text_layer));
-  
 }
 
 static void main_window_unload(Window *window) {
@@ -209,7 +222,11 @@ static void main_window_unload(Window *window) {
     
     // Destroy weather elements
     text_layer_destroy(s_weather_layer);
+    //Destroy GBitmap
+    gbitmap_destroy(s_icon_bitmap);
 
+    //Destroy BitmapLayer
+    bitmap_layer_destroy(s_icon_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -220,6 +237,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     update_speech();
     layer_set_hidden((Layer*)s_text_layer, false);
     layer_set_hidden((Layer*)s_weather_layer, true);
+    layer_set_hidden((Layer*)s_icon_layer, true);  
   }  
     
   // Get weather update every 2 minutes
@@ -235,6 +253,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   app_message_outbox_send();
   layer_set_hidden((Layer*)s_text_layer, true);
   layer_set_hidden((Layer*)s_weather_layer, false);
+  layer_set_hidden((Layer*)s_icon_layer, false); 
   } 
 }
 

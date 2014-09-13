@@ -12,8 +12,14 @@
     "resources": {
         "media": [
             {
-                "file": "images/sun.png",
-                "name": "sun",
+                "characterRegex": "[0-9:.]",
+                "file": "fonts/bauerb__.ttf",
+                "name": "Bauer_Bodoni_Bold_52",
+                "type": "font"
+            },
+            {
+                "file": "images/cloud_rain.png",
+                "name": "cloud_rain",
                 "type": "png"
             },
             {
@@ -22,15 +28,9 @@
                 "type": "png"
             },
             {
-                "file": "images/cloud_rain.png",
-                "name": "cloud_rain",
+                "file": "images/sun.png",
+                "name": "sun",
                 "type": "png"
-            },
-            {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/bauerb__.ttf",
-                "name": "Bauer_Bodoni_Bold_52",
-                "type": "font"
             }
         ]
     },
