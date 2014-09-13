@@ -3,7 +3,7 @@
     "capabilities": [
         ""
     ],
-    "companyName": "kevinleezhang@gmail.com",
+    "companyName": "HackCMU 2014",
     "longName": "Motivational Watch",
     "projectType": "native",
     "resources": {
@@ -11,7 +11,7 @@
             {
                 "characterRegex": "[0-9:.]",
                 "file": "fonts/bauerb__.ttf",
-                "name": "Bauer_Bodoni_Bold_48",
+                "name": "Bauer_Bodoni_Bold_52",
                 "type": "font"
             }
         ]
@@ -21,6 +21,6 @@
     "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {
-        "watchface": false
+        "watchface": true
     }
 }

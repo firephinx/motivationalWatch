@@ -27,17 +27,19 @@ static void update_time() {
 
 static void main_window_load(Window *window) {
   // Create time TextLayer
-  s_time_layer = text_layer_create(GRect(0, 95, 144, 100));
+  s_time_layer = text_layer_create(GRect(0, 110, 144, 110));
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
+    
+  // Create GFont
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
 
   // Improve the layout to be more like a watchface
-  // Create GFont
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_48));
-
   // Apply to TextLayer
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
+    
+  graphics_draw_text(s_time_layer, "Hello World", s_time_font,GRect(0, 110, 144, 110), GTextOverflowModeWordWrap,  GTextAlignmentLeft, NULL);
 
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
