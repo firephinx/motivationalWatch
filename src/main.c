@@ -74,17 +74,17 @@ static void main_window_load(Window *window) {
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
   
   // Create string that will be used to display whatever.
-  char *output=malloc(150);
+  char *output=malloc(500);
   // Only doing 1 thing atm.
   strcpy(output,"Do not ");
   strcat(output,negvb[0]);
-  strcat(output," - ");
-  //strcat(output,comparatives[0]);
-  /*strcat(output," ");
+  strcat(output, " - ");
+  strcat(output,comparatives[0]);
+  strcat(output," ");
   strcat(output,noun[0]);
   strcat(output," shall ");
   strcat(output,verb[0]);
-  strcat(output,"!");*/
+  strcat(output,"!");
     
   // Improve the layout to be more like a watchface
   // Apply to TextLayer
