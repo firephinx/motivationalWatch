@@ -61,18 +61,7 @@ static void update_time() {
   text_layer_set_text(s_time_layer, buffer);
 }
 
-static void main_window_load(Window *window) {
-  // Create time TextLayer
-  s_time_layer = text_layer_create(GRect(0, 110, 144, 110));
-  s_text_layer = text_layer_create(GRect(10, 5, 127, 115));
-  text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorBlack);
-  text_layer_set_background_color(s_text_layer, GColorClear);
-  text_layer_set_text_color(s_text_layer, GColorBlack);
-    
-  // Create GFont
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
-  
+static void update_speech() {
   // Create string that will be used to display whatever.
   char *output=malloc(500);
   // Only doing 1 thing atm.
@@ -85,15 +74,32 @@ static void main_window_load(Window *window) {
   strcat(output," shall ");
   strcat(output,verb[rand()%verbCnt]);
   strcat(output,"!");
+  
+  text_layer_set_text(s_text_layer, output);
+  
+  free(output);
+}
+
+static void main_window_load(Window *window) {
+  // Create time TextLayer
+  s_time_layer = text_layer_create(GRect(0, 110, 144, 110));
+  s_text_layer = text_layer_create(GRect(10, 5, 127, 115));
+  text_layer_set_background_color(s_time_layer, GColorClear);
+  text_layer_set_text_color(s_time_layer, GColorBlack);
+  text_layer_set_background_color(s_text_layer, GColorClear);
+  text_layer_set_text_color(s_text_layer, GColorBlack);
+    
+  // Create GFont
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
+  
     
   // Improve the layout to be more like a watchface
   // Apply to TextLayer
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GAlignBottom);
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-  text_layer_set_text(s_text_layer, output);
   
-  free(output);
+  update_speech();
 
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
