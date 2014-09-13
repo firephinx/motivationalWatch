@@ -60,6 +60,7 @@ static void update_speech() {
   else if (speechtype == 1) {
     strcpy(output,"");
     strcat(output,verb[rand()%verbCnt]);
+    output[0] = output[0]-32;
     strcat(output," ");
     strcat(output,adverb[rand()%adverbCnt]);
     strcat(output,", ");
@@ -70,10 +71,12 @@ static void update_speech() {
     strcat(output,adverb[rand()%adverbCnt]);
     strcat(output," ");
     strcat(output,adj[rand()%adjCnt]);
+    strcat(output,".");
   }
   else if (speechtype == 2) {
     strcpy(output,"");
     strcat(output,noun[rand()%nounCnt]);
+    output[0] = output[0]-32;
     strcat(output," may ");
     strcat(output,verbx[rand()%verbxCnt]);
     strcat(output," ");
@@ -84,6 +87,7 @@ static void update_speech() {
     strcat(output,verbx[rand()%verbxCnt]);
     strcat(output," ");
     strcat(output,comparatives[rand()%comparativesCnt]);
+    strcat(output,".");
   }
   text_layer_set_text(s_text_layer, output);
   
