@@ -44,8 +44,6 @@ const char *verb[]={"think","come","look","appear","run","lift","decide","mix","
 const int timesCnt = 11;
 const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
 
-int prevMin = -1;
-
 static void update_speech() {
   // Create string that will be used to display whatever.
   char *output=malloc(500);
@@ -113,13 +111,6 @@ static void update_time() {
   } else {
     // Use 12 hour format
     strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
-  }
-  
-  int curMin = tick_time->tm_min;
-  if (prevMin == -1) prevMin = curMin;
-  else if (prevMin != curMin) {
-    prevMin = curMin;
-    update_speech();
   }
   
   // Display this time on the TextLayer
@@ -192,10 +183,6 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   
   update_speech();
-
-  // Add it as a child layer to the Window's root layer
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_text_layer));
     
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 10, 144, 25));
@@ -207,23 +194,35 @@ static void main_window_load(Window *window) {
   // Create second custom font, apply it and add to Window
   s_weather_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
   text_layer_set_font(s_weather_layer, s_weather_font);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));  
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));   
+
+  // Add it as a child layer to the Window's root layer
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_text_layer));
 }
 
 static void main_window_unload(Window *window) {
-    // Unload GFont
-    fonts_unload_custom_font(s_time_font);
+    text_layer_destroy(s_time_layer);
+  
+    text_layer_destroy(s_text_layer);
+    
     // Destroy weather elements
     text_layer_destroy(s_weather_layer);
-    text_layer_destroy(s_text_layer);
-    fonts_unload_custom_font(s_weather_font);
+
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
+  
+  if(tick_time->tm_min%2 == 0)
+  {
+    update_speech();
+    layer_set_hidden((Layer*)s_text_layer, false);
+    layer_set_hidden((Layer*)s_weather_layer, true);
+  }  
     
-  // Get weather update every 30 minutes
-  if(tick_time->tm_min % 30 == 0) {
+  // Get weather update every 2 minutes
+  if(tick_time->tm_min % 2 == 1) {
   // Begin dictionary
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);
@@ -233,13 +232,9 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 
   // Send the message!
   app_message_outbox_send();
-  }  
-}
-
-static void window_load()
-{
-    window_stack_push(s_main_window, true);
-    update_time();
+  layer_set_hidden((Layer*)s_text_layer, true);
+  layer_set_hidden((Layer*)s_weather_layer, false);
+  } 
 }
 
 static void init() {
@@ -254,6 +249,7 @@ static void init() {
     .load = main_window_load,
     .unload = main_window_unload
   });
+    
   // Show the Window on the watch, with animated=true
   window_stack_push(s_main_window, true);
     
