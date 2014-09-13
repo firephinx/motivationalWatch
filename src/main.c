@@ -11,50 +11,73 @@ static GFont s_weather_font;
 static BitmapLayer *s_icon_layer;
 static GBitmap *s_icon_bitmap;
 
-const int nounCnt = 46;
+//const int nounCnt = 46;
 const char *noun[]={"firetrucks","chewing gum","soaps","gardens","pencils","shirts","computers","video games","Carnegie Mellon","hacking",
                      "hackathons","fairy tales","melons","cats","glasses","clans","lights","fireworks","mice","dogs","bags","shoes","smiles",
                      "toothbrushes","yawns","floors","ceilings","skies","places","things","boxes","secrets","books","phones","people","hobbits",
                      "goblins","elves","rings","melodies","friendships","ponies","fire extinguishers","search engines","achievements","rainbows",};
-const int negadjCnt = 31;
+const int nounCnt = sizeof(noun)/sizeof(*noun);
+
+//const int negadjCnt = 31;
 const char *negadj[]={"bad","desperate","terrible","indecisive","vague","cloudy","unfortunate","cantankerous","finicky","foolhardy","fussy","mean",
                       "unpredictable","silly","sneaky","patronizing","nasty","inflexible","harsh","lazy","cynical","messy","stagnant","stale",
                       "stressful","scary","repulsive","rainy","arrogant","needy","insignificant"};
-const int negvbCnt = 32;
+const int negadjCnt = sizeof(negadj)/sizeof(*negadj);
+
+//const int negvbCnt = 32;
 const char *negvb[]={"despair","worry","dismay","disapprove","downgrade","disrespect","drop out","fail","expire","fear","gripe","grumble",
                      "hallucinate","hate","be lame","mess up","misbehave","objectify","be obliterated","offend","oppress","ostracize","perish",
                      "panic","procrastinate","recoil","retreat","scorn","shriek","slaughter","squabble","be nauseated"};
-const int comparativesCnt = 34;
+const int negvbCnt = sizeof(negvb)/sizeof(*negvb);
+
+//const int comparativesCnt = 34;
 const char *comparatives[]={"happier","calmer","better","nicer","wittier","prouder","more delightful","bigger","more alive","more important",
                            "greener","redder","bluer","more purple","more yellow","more glamorous","fancier","chubbier","sweeter","younger","older",
                            "fluffier","warmer","yummier","stronger","jollier","more charming","more certain","more decisive","cooler","cuter",
                            "more grandiose","groovier","more magical"};
-const int verbxCnt = 13;
+const int comparativesCnt = sizeof(comparatives)/sizeof(*comparatives);
+
+//const int verbxCnt = 13;
 const char *verbx[]={"look","seem","appear","act","become","end up","wax","stay","sound","remain","prove","get","taste"};
-const int verbx2Cnt = 10;
+const int verbxCnt = sizeof(verbx)/sizeof(*verbx);
+
+//const int verbx2Cnt = 10;
 const char *verbx2[]={"look","seem","appear","act","become","end up","wax","stay","sound","remain"};
-const int verbtCnt = 36;
+const int verbx2Cnt = sizeof(verbx2)/sizeof(*verbx2);
+
+//const int verbtCnt = 36;
 const char *verbt[]={"think of","look at","lift","mix","knit","gather","fix","melt","hammer on","greet","hypothesize about","hypnotize",
                      "mesmerize","analyze","amuse","dig under","assemble","create","laugh at","twist","eat","raise","smile at","spread",
 					 "surprise","write","read about","disrespect","worry about","disapprove of","recoil at","slaughter","mess up",
 					 "annihilate","offend","fear"};
-const int adverbCnt = 31;
+const int verbtCnt = sizeof(verbt)/sizeof(*verbt);
+
+//const int adverbCnt = 31;
 const char *adverb[]={"positively","nicely","gracefully","loudly","intuitively","greatly","wonderfully","naturally","optimistically","openly",
                       "truly","truthfully","sweetly","unusually","quietly","powerfully","lovingly","wonderfully","fantastically","justly","easily",
                       "patiently","youthfully","stealthily","respectfully","reproachfully","tenderly","merrily","softly","magically","kindly"};
-const int uncompadvCnt = 18;
+const int adverbCnt = sizeof(adverb)/sizeof(*adverb);
+
+//const int uncompadvCnt = 18;
 const char *uncompadv[]={"pretty","absolutely","adequately","chiefly","completely","entirely","fundamentally","wonderfully","mainly",
                      	 "irrevocably","sufficiently", "wholly", "universally", "unanimously", "ubiquitously", "primarily", "perfectly", "openly"};
-const int adjCnt = 30;
+const int uncompadvCnt = sizeof(uncompadv)/sizeof(*uncompadv);
+
+//const int adjCnt = 30;
 const char *adj[]={"good","lovely","wonderful","nice","agreeable","calm","beautiful","fluffy","happy","witty","small","red","blue","yellow","green",
                    "purple","orange","glamorous","glorious","fabulous","meaningful","beautiful","alive","active","interesting","attractive","careful",
                    "special","tall","short"};
-const int verbCnt = 39;
+const int adjCnt = sizeof(adj)/sizeof(*adj);
+
+//const int verbCnt = 39;
 const char *verb[]={"think","come","look","appear","run","lift","decide","mix","knit","gather","fix","accomplish","bubble","hammer","greet","enlist",
                     "hypothesize","fly","hypnotize","mesmerize","memorize","happen","analyze","amuse","dig","assemble","exist","laugh","remain",
                     "twist","eat","rise","smile","sneeze","spread","surprise","be unlocked","write","be surprised"};
-const int timesCnt = 11;
+const int verbCnt = sizeof(verb)/sizeof(*verb);
+
+//const int timesCnt = 11;
 const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
+const int timesCnt = sizeof(times)/sizeof(*times);
 
 int prevMin = -1;
 
@@ -189,7 +212,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case KEY_TEMPERATURE:
-      snprintf(temperature_buffer, sizeof(temperature_buffer), "%dC", (int)t->value->int32);
+      snprintf(temperature_buffer, sizeof(temperature_buffer), "%dF", (int)t->value->int32);
       break;
     case KEY_CONDITIONS:
       snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", t->value->cstring);

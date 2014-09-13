@@ -12,19 +12,8 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[0-9:.]",
-                "file": "fonts/bauerb__.ttf",
-                "name": "Bauer_Bodoni_Bold_52",
-                "type": "font"
-            },
-            {
-                "file": "images/sunny.png",
-                "name": "sunny",
-                "type": "png"
-            },
-            {
-                "file": "images/cloudy.png",
-                "name": "cloudy",
+                "file": "images/cover.png",
+                "name": "cover",
                 "type": "png"
             },
             {
@@ -33,9 +22,20 @@
                 "type": "png"
             },
             {
-                "file": "images/cover.png",
-                "name": "cover",
+                "file": "images/cloudy.png",
+                "name": "cloudy",
                 "type": "png"
+            },
+            {
+                "file": "images/sunny.png",
+                "name": "sunny",
+                "type": "png"
+            },
+            {
+                "characterRegex": "[0-9:.]",
+                "file": "fonts/bauerb__.ttf",
+                "name": "Bauer_Bodoni_Bold_52",
+                "type": "font"
             }
         ]
     },
