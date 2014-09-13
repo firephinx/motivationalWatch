@@ -18,8 +18,8 @@ const int negvbCnt = 32;
 const char *negvb[]={"despair","worry","dismay","disapprove","downgrade","disrespect","drop out","fail","expire","fear","gripe","grumble",
                      "hallucinate","hate","be lame","mess up","misbehave","objectify","be obliterated","offend","oppress","ostracize","perish",
                      "panic","procrastinate","recoil","retreat","scorn","shriek","slaughter","squabble","be nauseated"};
-const int comparativeCnt = 34;
-const char *comparative[]={"happier","calmer","better","nicer","wittier","prouder","more delightful","bigger","more alive","more important",
+const int comparativesCnt = 34;
+const char *comparatives[]={"happier","calmer","better","nicer","wittier","prouder","more delightful","bigger","more alive","more important",
                            "greener","redder","bluer","more purple","more yellow","more glamorous","fancier","chubbier","sweeter","younger","older",
                            "fluffier","warmer","yummier","stronger","jollier","more charming","more certain","more decisive","cooler","cuter",
                            "more grandiose","groovier","more magical"};
@@ -74,17 +74,17 @@ static void main_window_load(Window *window) {
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_Bauer_Bodoni_Bold_52));
   
   // Create string that will be used to display whatever.
-  char output[150]="";
+  char *output=malloc(150);
   // Only doing 1 thing atm.
-  strncat(output,"Do not ",100);
-  strncat(output,negvb[0],100);
-  strncat(output," - ",100);
-  strncat(output,comparative[0],100);
-  strncat(output," ",100);
-  strncat(output,noun[0],100);
-  strncat(output," shall ",100);
-  strncat(output,verb[0],100);
-  strncat(output,"!",100);
+  strcpy(output,"Do not ");
+  strcat(output,negvb[0]);
+  strcat(output," - ");
+  //strcat(output,comparatives[0]);
+  /*strcat(output," ");
+  strcat(output,noun[0]);
+  strcat(output," shall ");
+  strcat(output,verb[0]);
+  strcat(output,"!");*/
     
   // Improve the layout to be more like a watchface
   // Apply to TextLayer
@@ -93,6 +93,7 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   text_layer_set_text(s_text_layer, output);
   
+  free(output);
 
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
