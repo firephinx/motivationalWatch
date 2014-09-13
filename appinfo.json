@@ -7,7 +7,14 @@
     "longName": "Motivational Watch",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "characterRegex": "[0-9:.]",
+                "file": "fonts/bauerb__.ttf",
+                "name": "Bauer_Bodoni_Bold_48",
+                "type": "font"
+            }
+        ]
     },
     "shortName": "Motivational Watch",
     "uuid": "11aaa57b-e19f-4e6d-9578-9414677082af",
