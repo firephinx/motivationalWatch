@@ -40,19 +40,51 @@ const char *verb[]={"think","come","look","appear","run","lift","decide","mix","
 const int timesCnt = 11;
 const char *times[]={"now","later","soon","tomorrow","yesterday","eventually","often","sometimes","forever","all the time","on rare occasions"};
 
+int prevMin = -1;
+
 static void update_speech() {
   // Create string that will be used to display whatever.
   char *output=malloc(500);
-  // Only doing 1 thing atm.
-  strcpy(output,"Do not ");
-  strcat(output,negvb[rand()%negvbCnt]);
-  strcat(output, " - ");
-  strcat(output,comparatives[rand()%comparativesCnt]);
-  strcat(output," ");
-  strcat(output,noun[rand()%nounCnt]);
-  strcat(output," shall ");
-  strcat(output,verb[rand()%verbCnt]);
-  strcat(output,"!");
+  int speechtype = rand()%3;
+  if (speechtype == 0) {
+    strcpy(output,"Do not ");
+    strcat(output,negvb[rand()%negvbCnt]);
+    strcat(output, " - ");
+    strcat(output,comparatives[rand()%comparativesCnt]);
+    strcat(output," ");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output," shall ");
+    strcat(output,verb[rand()%verbCnt]);
+    strcat(output,"!");
+  }
+  else if (speechtype == 1) {
+    strcpy(output,"");
+    strcat(output,verb[rand()%verbCnt]);
+    strcat(output," ");
+    strcat(output,adverb[rand()%adverbCnt]);
+    strcat(output,", ");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output," ");
+    strcat(output,verb[rand()%verbCnt]);
+    strcat(output," ");
+    strcat(output,adverb[rand()%adverbCnt]);
+    strcat(output," ");
+    strcat(output,adj[rand()%adjCnt]);
+  }
+  else if (speechtype == 2) {
+    strcpy(output,"");
+    strcat(output,noun[rand()%nounCnt]);
+    strcat(output," may ");
+    strcat(output,verbx[rand()%verbxCnt]);
+    strcat(output," ");
+    strcat(output,negadj[rand()%negadjCnt]);
+    strcat(output," ");
+    strcat(output,times[rand()%timesCnt]);
+    strcat(output," but they ");
+    strcat(output,verbx[rand()%verbxCnt]);
+    strcat(output," ");
+    strcat(output,comparatives[rand()%comparativesCnt]);
+  }
   
   text_layer_set_text(s_text_layer, output);
   
@@ -75,7 +107,14 @@ static void update_time() {
     // Use 12 hour format
     strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
   }
-
+  
+  int curMin = tick_time->tm_min;
+  if (prevMin == -1) prevMin = curMin;
+  else if (prevMin != curMin) {
+    prevMin = curMin;
+    update_speech();
+  }
+  
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
 }
@@ -83,7 +122,7 @@ static void update_time() {
 static void main_window_load(Window *window) {
   // Create time TextLayer
   s_time_layer = text_layer_create(GRect(0, 110, 144, 110));
-  s_text_layer = text_layer_create(GRect(10, 5, 127, 115));
+  s_text_layer = text_layer_create(GRect(10, 0, 127, 120));
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_background_color(s_text_layer, GColorClear);
